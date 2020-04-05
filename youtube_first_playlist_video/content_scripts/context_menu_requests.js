@@ -33,22 +33,29 @@ $( document ).ready(function() {
 		
 	};
 
-	// MutationObserver instantiation
-	var mutationObs = new MutationObserver(function (mutations) { 
-		addOrRemoveOptionsOnMouseInteraction();
+	// Initial handlers assignment
+	$("a[href*='&list']").each(function () {
+		addOrRemoveOptionsOnMouseInteraction($(this));
 	});
-		
+
+	// MutationObserver instantiation
+	var mutationObs = new MutationObserver(function () {
+		$("a[href*='&list']:not(.playlist-context-menu)").each(function () {
+			addOrRemoveOptionsOnMouseInteraction($(this));
+		});
+	});
+	
 	// Observe initialization
 	mutationObs.observe(document.body, { childList: true, subtree: true });
 
-	function addOrRemoveOptionsOnMouseInteraction () {
-		// Rambo programming 💣🔫
-        $("a[href*='&list']") 
+	function addOrRemoveOptionsOnMouseInteraction (e) {
+        e
 		.hover(addMenuOptions, removeMenuOptions)
 		.mouseover(addMenuOptions)
 		.mouseout(removeMenuOptions)
 		.focusin(addMenuOptions)
 		.focusout(removeMenuOptions)
+		.addClass('playlist-context-menu')
 	}
 	
 });
