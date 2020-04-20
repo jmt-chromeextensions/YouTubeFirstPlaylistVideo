@@ -11,6 +11,10 @@
     "128": "extension_icons/youtubeplaylistfirstvideo-128.png"
   },
 
+  "browser_action": {
+    "default_title": "YouTube First Playlist Video: open settings page"
+  },
+
   "background": {
     "scripts": ["background_scripts/context_menu_create_remove.js"]
   },
@@ -27,5 +31,8 @@
   ],
   
   "permissions": 
-    ["contextMenus"]
+    [
+      "contextMenus",
+      "storage"
+    ]
 }
