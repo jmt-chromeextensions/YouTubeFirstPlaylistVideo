@@ -2,12 +2,21 @@ body {
     background-color: #181818;
 }
 
+.content {
+    width: max-content;
+    margin: 250px auto 0;
+}
+.title_explanation {
+    max-width: 1200px;
+    font-size: 30px;
+    color: white;
+}   
 .options {
     max-width: 400px;
-    position: relative;
-    margin: 300px auto 0;
+    margin: 50px auto 0;
     font-size: 15px;
 }
+
 .radiobtn {
     position: relative;
     display: block;
@@ -15,11 +24,11 @@ body {
 }
 .radiobtn label {
     display: block;
-    background: #fee8c3;
+    background: #ff9191;
     color: #444;
     border-radius: 5px;
     padding: 10px 20px;
-    border: 2px solid #fdd591;
+    border: 2px solid #ff6b6b;
     margin-bottom: 5px;
     cursor: pointer;
 }
@@ -31,7 +40,7 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 3px;
-    background: #fdcb77;
+    background: #ff6e6e;
 }
 .radiobtn label:before {
     background: transparent;
@@ -52,44 +61,45 @@ body {
     appearance: none;
 }
 .radiobtn input[type="radio"]:checked + label {
-    background: #fdcb77;
+    background: #ff6e6e;
     animation-name: blink;
     animation-duration: 1s;
-    border-color: #fcae2c;
+    border-color: white;
 }
 .radiobtn input[type="radio"]:checked + label:after {
-    background: #fcae2c;
+    background: #ff0000;
 }
 .radiobtn input[type="radio"]:checked + label:before {
     width: 20px;
     height: 20px;
 }
+
 @keyframes blink {
     0% {
-        background-color: #fdcb77;
+        background-color: #ff6e6e;
    }
     10% {
-        background-color: #fdcb77;
+        background-color: #ff6e6e;
    }
     11% {
-        background-color: #fdd591;
+        background-color: #ff6b6b;
    }
     29% {
-        background-color: #fdd591;
+        background-color: #ff6b6b;
    }
     30% {
-        background-color: #fdcb77;
+        background-color: #ff6e6e;
    }
     50% {
-        background-color: #fdd591;
+        background-color: #ff6b6b;
    }
     45% {
-        background-color: #fdcb77;
+        background-color: #ff6e6e;
    }
     50% {
-        background-color: #fdd591;
+        background-color: #ff6b6b;
    }
     100% {
-        background-color: #fdcb77;
+        background-color: #ff6e6e;
    }
 }

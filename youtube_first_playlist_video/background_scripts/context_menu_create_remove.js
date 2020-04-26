@@ -1,10 +1,11 @@
 // These values correspond to the choice of the options the user has specified they want the
 // context menu to contain in the settings page.
 const ALL_OPTIONS = 0
-const ONLY_NEW_TAB = 1
-const ONLY_NEW_TAB_SWITCH = 2
-const ONLY_NEW_WINDOW = 3
-const ONLY_NEW_INCOGNITO_WINDOW = 4
+const ONLY_THIS_TAB = 1
+const ONLY_NEW_TAB = 2
+const ONLY_NEW_TAB_SWITCH = 3
+const ONLY_NEW_WINDOW = 4
+const ONLY_NEW_INCOGNITO_WINDOW = 5
 
 var options_choice;
 
@@ -25,7 +26,6 @@ chrome.browserAction.onClicked.addListener(() => {
 // Inbox 📫
 chrome.runtime.onMessage.addListener(
 	function (request) {
-		debugger;
 
 		if (request.action === "addContextMenuOptions") {
 
@@ -42,6 +42,17 @@ chrome.runtime.onMessage.addListener(
 							"id": 'ynl_context_menu_parent',
 							"contexts": ["link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"]
+						});
+
+					// This tab
+					chrome.contextMenus.create(
+						{
+							"title": "this tab",
+							"parentId": "ynl_context_menu_parent",
+							"id": 'ynl_context_menu_this_tab',
+							"contexts": ["link"],
+							"documentUrlPatterns": ["https://*.youtube.com/*"],
+							"onclick": () => openVideo("openVideoThisTab", request.url)
 						});
 
 					// New tab
@@ -90,6 +101,21 @@ chrome.runtime.onMessage.addListener(
 
 					break;
 
+				// Individual options
+
+				case ONLY_THIS_TAB:
+
+					chrome.contextMenus.create(
+						{
+							"title": "Open first video in this tab",
+							"id": "ynl_context_menu_parent",
+							"contexts": ["link"],
+							"documentUrlPatterns": ["https://*.youtube.com/*"],
+							"onclick": () => openVideo("openVideoThisTab", request.url)
+						});
+					
+					break;
+
 				case ONLY_NEW_TAB:
 
 					chrome.contextMenus.create(
@@ -102,7 +128,6 @@ chrome.runtime.onMessage.addListener(
 						});
 					
 					break;
-
 					
 				case ONLY_NEW_TAB_SWITCH:
 
@@ -143,7 +168,6 @@ chrome.runtime.onMessage.addListener(
 					
 					break;
 
-
 			}
 
 		}
@@ -159,8 +183,17 @@ chrome.runtime.onMessage.addListener(
 
 function openVideo(openMode, url) {
 
+	// 'Open video in this tab' option clicked 
+	if (openMode === 'openVideoThisTab') {
+		// The id of the tab where the request has been made is necessary
+		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+			chrome.tabs.update(tabs[0].id, {url: url});
+		});
+
+	}
+
 	// 'Open video in new tab' option clicked 
-	if (openMode === 'openVideoNewTab') {
+	else if (openMode === 'openVideoNewTab') {
 		chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 			// Open new tab with the video to the right of the current one
 			chrome.tabs.create({ url: url, active: false, index: (tabs[0].index + 1) }); 
