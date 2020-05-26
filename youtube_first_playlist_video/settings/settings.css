@@ -10,6 +10,7 @@ body {
     max-width: 1200px;
     font-size: 30px;
     color: white;
+    cursor: default;
 }   
 .options {
     max-width: 400px;
