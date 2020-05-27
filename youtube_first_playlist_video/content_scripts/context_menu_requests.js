@@ -7,13 +7,10 @@ $( document ).ready(function() {
 			$(this).data('handler', 'true');
 			
 			chrome.runtime.sendMessage(
-				{action: "addContextMenuOptions", url: window.origin + $(this).attr('href').substring(0,$(this).attr('href').indexOf("&list"))},
-				function () {
-					return true;
-				}
+				{action: "addContextMenuOptions", url: window.origin + $(this).attr('href').substring(0,$(this).attr('href').indexOf("&list"))}
 			);
-			
-		}
+		
+			}
 		
 	};
 	
@@ -23,10 +20,7 @@ $( document ).ready(function() {
 			$(this).removeData('handler');
 			
 			chrome.runtime.sendMessage(
-				{action: "removeContextMenuOptions"},
-				function () {
-					return true;
-				}
+				{action: "removeContextMenuOptions"}
 			);
 			
 		};
