@@ -3,8 +3,8 @@ $( document ).ready(function() {
 	// MouseOver, HoverIn and focusIn events: send message to background script to add the context menu options
 	var addMenuOptions = function () {
 		
-		if (!$(this).data("handler")) {
-			$(this).data('handler', 'true');
+		if (!$(this).data("yfpv-handler")) {
+			$(this).data('yfpv-handler', 'true');
 			
 			chrome.runtime.sendMessage(
 				{action: "addContextMenuOptions", url: window.origin + $(this).attr('href').substring(0,$(this).attr('href').indexOf("&list"))}
@@ -16,8 +16,9 @@ $( document ).ready(function() {
 	
 	// MouseOut, HoverOut and focusOut events: send message to background script to remove the added context menu options
 	var removeMenuOptions = function () {
-		if ($(this).data("handler")) {
-			$(this).removeData('handler');
+		
+		if ($(this).data("yfpv-handler")) {
+			$(this).removeData('yfpv-handler');
 			
 			chrome.runtime.sendMessage(
 				{action: "removeContextMenuOptions"}
@@ -44,11 +45,8 @@ $( document ).ready(function() {
 
 	function addOrRemoveOptionsOnMouseInteraction (e) {
         e
-		.hover(addMenuOptions, removeMenuOptions)
 		.mouseover(addMenuOptions)
 		.mouseout(removeMenuOptions)
-		.focusin(addMenuOptions)
-		.focusout(removeMenuOptions)
 		.addClass('playlist-context-menu')
 	}
 	
