@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "YouTube First Playlist Video",
-  "version": "2.0.0.2",
+  "version": "2.0.0.3",
   
   "description": "YouTube: adds right click options to open only the first video of a playlist.",
   "icons": {
@@ -37,6 +37,7 @@
   "permissions": 
     [
       "*://*/*",
+      "management",
       "contextMenus",
       "storage"
     ]

@@ -7,6 +7,7 @@ const ONLY_NEW_TAB_SWITCH = 3
 const ONLY_NEW_WINDOW = 4
 const ONLY_NEW_INCOGNITO_WINDOW = 5
 
+var showingOptions = false;
 var options_choice;
 
 // Options choice initialization
@@ -27,7 +28,9 @@ chrome.browserAction.onClicked.addListener(() => {
 chrome.runtime.onMessage.addListener(
 	function (request) {
 
-		if (request.action === "addContextMenuOptions") {
+		if (request.action === "addContextMenuOptions" && !showingOptions) {
+
+			showingOptions = true;
 
 			// Depending on the user's choice, the context menu contains one parent item with the
 			// four children options, or a single item that can be only one the options.
@@ -40,7 +43,7 @@ chrome.runtime.onMessage.addListener(
 						{
 							"title": "Open first video in...",
 							"id": 'ynl_context_menu_parent',
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"]
 						});
 
@@ -50,7 +53,7 @@ chrome.runtime.onMessage.addListener(
 							"title": "this tab",
 							"parentId": "ynl_context_menu_parent",
 							"id": 'ynl_context_menu_this_tab',
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoThisTab", request.url)
 						});
@@ -61,7 +64,7 @@ chrome.runtime.onMessage.addListener(
 							"title": "new tab",
 							"parentId": "ynl_context_menu_parent",
 							"id": 'ynl_context_menu_tab',
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoNewTab", request.url)
 						});
@@ -72,7 +75,7 @@ chrome.runtime.onMessage.addListener(
 							"title": "new tab (switch)",
 							"parentId": "ynl_context_menu_parent",
 							"id": 'ynl_context_menu_tab_switch',
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoNewTabSwitch", request.url)
 						});
@@ -83,7 +86,7 @@ chrome.runtime.onMessage.addListener(
 							"title": "new window",
 							"parentId": "ynl_context_menu_parent",
 							"id": 'ynl_context_menu_window',
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoNewWindow", request.url)
 						});
@@ -94,7 +97,7 @@ chrome.runtime.onMessage.addListener(
 							"title": "incognito window",
 							"parentId": "ynl_context_menu_parent",
 							"id": 'ynl_context_menu_incognito',
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoIncognitoWindow", request.url)
 						});
@@ -109,7 +112,7 @@ chrome.runtime.onMessage.addListener(
 						{
 							"title": "Open first video in this tab",
 							"id": "ynl_context_menu_parent",
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoThisTab", request.url)
 						});
@@ -122,7 +125,7 @@ chrome.runtime.onMessage.addListener(
 						{
 							"title": "Open first video in a new tab",
 							"id": "ynl_context_menu_parent",
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoNewTab", request.url)
 						});
@@ -135,7 +138,7 @@ chrome.runtime.onMessage.addListener(
 						{
 							"title": "Open first video in a new tab (switch)",
 							"id": "ynl_context_menu_parent",
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoNewTabSwitch", request.url)
 						});
@@ -148,7 +151,7 @@ chrome.runtime.onMessage.addListener(
 						{
 							"title": "Open first video in a new window",
 							"id": "ynl_context_menu_parent",
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoNewWindow", request.url)
 						});
@@ -161,7 +164,7 @@ chrome.runtime.onMessage.addListener(
 						{
 							"title": "Open first video in a new incognito window",
 							"id": "ynl_context_menu_parent",
-							"contexts": ["link"],
+							"contexts": ["page", "link"],
 							"documentUrlPatterns": ["https://*.youtube.com/*"],
 							"onclick": () => openVideo("openVideoIncognitoWindow", request.url)
 						});
@@ -172,8 +175,10 @@ chrome.runtime.onMessage.addListener(
 
 		}
 
-		else if (request.action === "removeContextMenuOptions")
+		else if (request.action === "removeContextMenuOptions") {
+			showingOptions = false;
 			chrome.contextMenus.remove('ynl_context_menu_parent');
+		}
 
 		else if (request.action === "modifyUserOptionsChoice")
 			options_choice = request.choice;
