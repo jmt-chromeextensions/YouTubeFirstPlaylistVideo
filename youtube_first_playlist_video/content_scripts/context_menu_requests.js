@@ -1,6 +1,6 @@
-CONST PARTIAL_HREF_LIST_FIRST_PARAM = "watch?list";
-CONST PARTIAL_HREF_LIST_SUBSEQUENT_PARAM = "&list";
-CONST PLAYLIST_CONTENT_DIV = "#content.ytd-playlist-video-renderer";
+const PARTIAL_HREF_LIST_FIRST_PARAM = "watch?list";
+const PARTIAL_HREF_LIST_SUBSEQUENT_PARAM = "&list";
+const PLAYLIST_CONTENT_DIV = "#content.ytd-playlist-video-renderer";
 
 /* In playlists' context, handlers are assigned to anchors contained in divs that are also are assigned the handlers. 
 Therefore, the context menu options addition message could be sent twice before any 'mouseleave' handler is triggered. (inOut = 2).
